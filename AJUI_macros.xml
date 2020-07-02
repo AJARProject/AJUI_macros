@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE macros SYSTEM "http://www.4d.com/dtd/2007/macros.dtd" >
+<macros>
+<macro name="NewAJUI_ButtonText">
+	<text>
+		C_TEXT($currentBtnName)
+		$currentBtnName:=OBJECT Get name(Object current)
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)
+				Form[$currentBtnName]:=New AJUI_Button
+				Form[$currentBtnName].Name($currentBtnName)
+				Form[$currentBtnName].OnClick("MyMethod<caret/>";New object("param1";""))
+				Form[$currentBtnName].Type("rectangle")
+				Form[$currentBtnName].Composition("text")
+				Form[$currentBtnName].Label(AJUI_btn_default;"My Message")
+		End Case
+		Form[$currentBtnName].Draw()
+	</text>
+</macro>
+
+<macro name="NewAJUI_ButtonPicture">
+	<text>
+		C_TEXT($currentBtnName)
+		$currentBtnName:=OBJECT Get name(Object current)
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)
+				Form[$currentBtnName]:=New AJUI_Button
+				Form[$currentBtnName].Name($currentBtnName)
+				Form[$currentBtnName].OnClick("MyMethod<caret/>";New object("param1";""))
+				Form[$currentBtnName].Type("rectangle")
+				Form[$currentBtnName].Composition("picture")	
+				Form.btn1.PicturePath(AJUI_btn_default;"myPicture.png")
+		End Case
+		Form[$currentBtnName].Draw()
+	</text>
+</macro>
+
+<macro name="NewAJUI_ButtonFAB">
+	<text>
+		C_TEXT($currentBtnName)
+		$currentBtnName:=OBJECT Get name(Object current)
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)
+				Form[$currentBtnName]:=New AJUI_Button
+				Form[$currentBtnName].Name($currentBtnName)
+				Form[$currentBtnName].FABIsMainButton(True)
+				Form[$currentBtnName].FABIsAnimated(True)
+				Form[$currentBtnName].FABAdd("<caret/>")
+		End Case
+		Form[$currentBtnName].Draw()
+	</text>
+</macro>
+
+<macro name="NewAJUI_ButtonWithTemplate">
+	<text>
+		C_TEXT($currentBtnName)
+		$currentBtnName:=OBJECT Get name(Object current)
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)
+				C_OBJECT($btnTemplate)
+				$btnTemplate:=New object("templateName";<selection/>)
+				
+				Form[$currentBtnName]:=New AJUI_Button ($btnTemplate)
+				Form[$currentBtnName].Name($currentBtnName)
+				Form[$currentBtnName].OnClick("MyMethod<caret/>";New object("param1";""))
+		End Case
+		Form[$currentBtnName].Draw()
+	</text>
+</macro>
+
+<macro name="NewAJUI_Breadcrumb">
+	<text>
+		C_TEXT($currentBCName)
+		$currentBCName:=OBJECT Get name(Object current)
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)
+				Form[$currentBCName]:=New AJUI_BreadCrumb 
+				Form[$currentBCName].Name($currentBCName)
+				Form[$currentBCName].Model("arrow")
+				Form[$currentBCName].AddSection("sect1";New object("label";"MySection1<caret/>";"onClickCB";"MyCallback"))
+		End Case
+		Form[$currentBCName].Draw()
+	</text>
+</macro>
+
+
+<macro name="NewAJUI_BreadcrumbWithTemplate">
+	<text>
+		C_TEXT($currentBCName)
+		$currentBCName:=OBJECT Get name(Object current)
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)
+				C_OBJECT($bcTemplate)
+				$bcTemplate:=New object("templateName";<selection/>)
+				
+				Form[$currentBCName]:=New AJUI_BreadCrumb ($bcTemplate)
+				Form[$currentBCName].Name($currentBCName)
+				<caret/>
+		End Case
+		Form[$currentBCName].Draw()
+	</text>
+</macro>
+
+<macro name="NewAJUI_Tip">
+	<text>
+		C_TEXT($currentTipName)
+		$currentTipName:=OBJECT Get name(Object current)
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)			
+				Form[$currentTipName]:=New AJUI_Tip ($tipTemplate)
+				Form[$currentTipName].TargetName($currentTipName)
+				Form[$currentTipName].TipPosition("top")
+				Form[$currentTipName].BackgroundColor("yellow")
+				Form[$currentTipName].TipboxMaxWidth(150)
+				Form[$currentTipName].TextLabel("MyMessage<caret/>")
+			: ($evt=On Mouse Enter)
+				Form[$currentTipName].Show()
+			: ($evt=On Mouse Leave)	
+				Form[$currentTipName].Hide()
+		End Case
+	</text>
+</macro>
+
+<macro name="NewAJUI_TipWithTemplate">
+	<text>
+		C_TEXT($currentTipName)
+		$currentTipName:=OBJECT Get name(Object current)
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)
+				C_OBJECT($tipTemplate)
+				$tipTemplate:=New object("templateName";<selection/>)
+				
+				Form[$currentTipName]:=New AJUI_Tip ($tipTemplate)
+				Form[$currentTipName].TargetName($currentTipName)
+				<caret/>
+			: ($evt=On Mouse Enter)
+				Form[$currentTipName].Show()
+			: ($evt=On Mouse Leave)	
+				Form[$currentTipName].Hide()
+		End Case
+	</text>
+</macro>
+
+<macro name="AJUI_TipFade">
+	<text>
+		$mytip.TimerFadeIn(1200)
+		$mytip.ActivateFadeIn(True)
+		$mytip.TipDuration(5000)
+		$mytip.TimerFadeOut(1200)
+		$mytip.ActivateFadeOut(True)
+	</text>
+</macro>
+
+<macro name="AJUI_TipJump">
+	<text>
+		$mytip.JumpNumber(3)
+		$mytip.JumpDuration(1000)
+		$mytip.JumpOn(50)
+		$mytip.JumpOffset(20)
+	</text>
+</macro>
+
+<macro name="AJUI_TipBlink">
+	<text>
+		$mytip.BlinkNumber(3)
+		$mytip.BlinkDuration(1000)
+		$mytip.BlinkOn(50)
+	</text>
+</macro>
+
+<macro name="NewAJUI_BannerWindow">
+	<text>
+		$evt:=Form event code
+		Case of 
+			: ($evt=On Load)	
+				Form.myBanner:=New AJUI_Banner 
+				Form.myBanner.BannerType("window")
+				Form.myBanner.IsPicture(False)
+				Form.myBanner.Message("MyMessage")
+				Form.myBanner.BannerPosition("bottom-right")
+				Form.myBanner.BannerName("myBanner")
+			: ($evt=On Clicked)	
+				Form.myBanner.DrawBanner()
+		End Case
+	</text>
+</macro>
+
+<macro name="NewAJUI_BannerRibbon">
+	<text>
+		$evt:=Form event code
+		Case of 
+			: ($evt=On Load)	
+				Form.myBanner:=New AJUI_Banner 
+				Form.myBanner.BannerType("cornerRibbon")
+				Form.myBanner.BannerName("productAvailable")
+				Form.myBanner.Message("In Stock")
+				Form.myBanner.BannerPosition("top-right")
+				Form.myBanner.RibbonTargetName("productPanel")
+				Form.myBanner.BannerHeight(100)
+				Form.myBanner.BannerWidth(165)
+			: ($evt=On Clicked)	
+				Form.myBanner.DrawBanner()
+		End Case
+	</text>
+</macro>
+
+<macro name="NewAJUI_BannerSpinner">
+	<text>
+		$evt:=Form event code
+		Case of 
+			: ($evt=On Load)	
+				Form.myBanner:=New AJUI_Banner 
+				Form.myBanner.BannerHeight(150)
+				Form.myBanner.BannerWidth(400)
+				Form.myBanner.BannerName("mybanner")
+				Form.myBanner.BannerType("spinner")
+			: ($evt=On Clicked)	
+				Form.myBanner.DrawBanner()
+			: ($evt=On Unload)
+				Form.myBanner.StopSpinner()
+		End Case
+	</text>
+</macro>
+
+<macro name="NewUnitTest">
+	<text>
+		C_OBJECT($test)
+		$test:=New AJ_Tools_UT_describe ("describe";Current method name;"test category")
+
+		$test.given:="1 + 1"
+		$test.should:="return 2"
+		$test.expected:=2
+		$test.actual:=1+1
+		$test.assert()
+	</text>
+</macro>
+
+<macro name="NewAJ_Math">
+	<text>
+		C_OBJECT($math)
+
+		$math:=Math ()
+		$result:=$math.round(5.95) //example
+	</text>
+</macro>
+
+<macro name="NewAJUI_Animate">
+	<text>
+		$animation:=New Animation
+		$animation.target:="Rectangle"
+		$animation.duration:=1000
+		$animation.factor:=1
+		$animation.offset:=300
+		$animation.orientation:="right"
+		$animation.hideAtTheEnd:=False
+		$animation.bounceIn()
+	</text>
+</macro>
+
+<macro name="NewAJUI_AnimateFloatingLabel">
+	<text>
+			$evt:=Form event code
+			Case of 
+				: ($evt=On Load)
+					Form.FLabel1:=New Animation 
+					Form.FLabel1.formPath:="firstName"
+					Form.FLabel1.animationType:="elastic"
+					Form.FLabel1.duration:=1100
+			End case 
+			Form.FLabel1.floatingLabel()
+	</text>
+</macro>
+
+<macro name="NewAJUI_CicularProgressBar">
+	<text>
+			$evt:=Form event code
+			Case of 
+				: ($evt=On Load)
+				    Form.percent:=0
+					Form.mycpb:=New AJUI_CircularProgressBar 
+					Form.mycpb.CPBActivateAnimation(True)
+					Form.mycpb.CPBPercentValue(Form.percent)
+					Form.mycpb.CPBRadiusAutoSize(False)
+					Form.mycpb.CPBPictFormObjName("CPB")
+					Form.mycpb.LaunchCircularProgressBar()
+				: ($evt=On Data Change)
+					Form.mypb.CPBPercentValue(Form.percent)
+					Form.mypb.LaunchCircularProgressBar()
+			End case 
+	</text>
+</macro>
+
+<macro name="NewAJUI_ProgressBar">
+	<text>
+			$evt:=Form event code
+			Case of 
+				: ($evt=On Load)
+					Form.percent:=0
+					Form.mypb:=New AJUI_ProgressBar 
+					Form.mypb.PBActivateAnimation(True)
+					Form.mypb.PBPercentValue(Form.percent)
+					Form.mypb.PBPictFormObjName("PB")
+					Form.mypb.LaunchProgressBar()
+				: ($evt=On Data Change)
+					Form.mypb.PBPercentValue(Form.percent)
+					Form.mypb.LaunchProgressBar()
+			End case 
+	</text>
+</macro>
+
+</macros>
+
