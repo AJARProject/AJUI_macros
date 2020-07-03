@@ -279,6 +279,7 @@
 			Case of 
 				: ($evt=On Load)
 					Form.FLabel1:=New Animation 
+					Form.FLabel1.target:="firstname_label"
 					Form.FLabel1.formPath:="firstName"
 					Form.FLabel1.animationType:="elastic"
 					Form.FLabel1.duration:=1100
