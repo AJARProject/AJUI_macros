@@ -569,6 +569,7 @@
 </macro>
 
 <macro name="checkTemplateFileExists">
+	<text>
 	C_TEXT($1;$0;$templateName;$path;$fullPath)
 	C_OBJECT($folder)
 	
@@ -583,6 +584,7 @@
 	End if	
 	
 	$0:=$path
+	</text>
 </macro>
 
 </macros>
