@@ -51,7 +51,9 @@
 				Form[$currentBtnName].Name($currentBtnName)
 				Form[$currentBtnName].FABIsMainButton(True)
 				Form[$currentBtnName].FABIsAnimated(True)
-				Form[$currentBtnName].FABAdd("<caret/>")
+				Form[$currentBtnName].FABAdd("btn1<caret/>")
+				Form[$currentBtnName].FABAdd("btn2")
+				Form[$currentBtnName].FABAdd("btn3")
 		End Case
 		Form[$currentBtnName].Draw()
 	</text>
@@ -73,6 +75,43 @@
 				Form[$currentBtnName].OnClick("MyMethod<caret/>";New object("param1";""))
 		End Case
 		Form[$currentBtnName].Draw()
+	</text>
+</macro>
+
+<macro name="AJUI_ButtionQuickPictBtneMethod">
+	<text>
+		C_OBJECT($0;$newButton_obj)
+
+		$newButton_obj:=New AJUI_Button 
+		
+		  //global
+		$newButton_obj.Type("circle")
+		$newButton_obj.Composition("picture")
+		
+		  //box
+		$newButton_obj.Resizable(True)
+		$newButton_obj.Height(AJUI_btn_default;30)
+		$newButton_obj.Width(AJUI_btn_default;30)
+		$newButton_obj.BGColor(AJUI_btn_default;"#4d9ad4")
+		$newButton_obj.BGColor(AJUI_btn_hover;"#005EA8")
+		$newButton_obj.BGColor(AJUI_btn_active;"white")
+		$newButton_obj.BGColor(AJUI_btn_disable;"lightgray")
+		$newButton_obj.BGColor(AJUI_btn_focus;"#9fddf9")
+		
+		  //border
+		$newButton_obj.BorderColor(AJUI_btn_default;"#0a509e")
+		$newButton_obj.BorderSize(AJUI_btn_default;0)
+		
+		  //picture
+		$newButton_obj.PictureHeight(AJUI_btn_default;15)
+		$newButton_obj.PictureWidth(AJUI_btn_default;15)
+		$newButton_obj.ColorToReplace(AJUI_btn_default;"#434343")
+		$newButton_obj.ReplacingColor(AJUI_btn_default;"white")
+		$newButton_obj.ReplacingColor(AJUI_btn_active;"#005EA8")
+		$newButton_obj.ReplacingColor(AJUI_btn_disable;"gray")
+		
+		
+		$0:=$newButton_obj
 	</text>
 </macro>
 
@@ -113,6 +152,110 @@
 	</text>
 </macro>
 
+<macro name="AJUI_BreadcrumbGroupedBtnFilterExample">
+	<text>
+		//Example of a grouped button template used as a filter for different currencies (Frs,$;€)
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)
+				C_OBJECT($bc;$section_obj;$params)
+				
+				 //info template
+				$bc:=New object()
+				$bc.templateName:="Currencies"
+				$bc.templatePath:=Get 4D folder(Current resources folder)+"Currencies"+Folder separator
+				
+				 //load template
+				Form.CurrBC:=New AJUI_BreadCrumb ($bc)
+				Form.CurrBC.Name("CurrBC")
+				Form.CurrBC.SetCurrentSection("Frs")
+				
+				  //add callback
+				$section_obj:=New object
+				$section_obj.onClickCB:="currencyFilter_cb"
+				
+				  //Frs
+				$params:=New object
+				$params.currency:="Frs"
+				$section_obj.onClickCBParams:=OB Copy($params)
+				Form.CurrBC.UpdateSection("Frs";$section_obj)
+				
+				  //€
+				$params.currency:="€"
+				$section_obj.onClickCBParams:=OB Copy($params)
+				Form.CurrBC.UpdateSection("€";$section_obj)
+				
+				  //$
+				$params.currency:="$"
+				$section_obj.onClickCBParams:=OB Copy($params)
+				Form.CurrBC.UpdateSection("$";$section_obj)
+		End case 
+		
+		Form.CurrBC.Draw()
+	</text>
+</macro>
+
+<macro name="AJUI_BreadcrumbAddSectionFullParams">
+	<text>
+		C_Object($section)
+		
+		$section.label:="<caret/>"
+		$section.disable:=False
+		$section.position:=1
+		$section.type:="standard" //standard,first,current,previous,next
+		
+		//picture
+		$section.colorToReplace:=""
+		$section.pictureHeight:="40%"
+		$section.pictureMargin:=10
+		$section.picturePath:=""
+		$section.picturePosition:="left"
+		
+		//callback
+		$section.onClickCB:="myMethod1"
+		$section.onClickCBParams:=new Object()
+		$section.onDoubleClickCB:="myMethod2"
+		$section.onDoubleClickCBParams:=new Object()
+		
+		//add section
+		myBC.AddSection("sect1";$section)
+	</text>
+</macro>
+
+<macro name="AJUI_BreadcrumbUpdateSectionFullParams">
+	<text>
+		C_Object($section)
+		
+		$section.label:="<caret/>"
+		$section.disable:=False
+		$section.position:=1
+		$section.type:="standard" //standard,first,current,previous,next
+		
+		//picture
+		$section.colorToReplace:=""
+		$section.pictureHeight:="40%"
+		$section.pictureMargin:=10
+		$section.picturePath:=""
+		$section.picturePosition:="left"
+		
+		//callback
+		$section.onClickCB:="myMethod1"
+		$section.onClickCBParams:=new Object()
+		$section.onDoubleClickCB:="myMethod2"
+		$section.onDoubleClickCBParams:=new Object()
+		
+		//update section
+		myBC.UpdateSection("sect1";$section)
+	</text>
+</macro>
+
+<macro name="AJUI_BreadcrumbDeleteSection">
+	<text>
+		myBC.RemoveSection("<caret/>sectionID")
+	</text>
+</macro>
+
 <macro name="NewAJUI_Tip">
 	<text>
 		C_TEXT($currentTipName)
@@ -135,25 +278,94 @@
 	</text>
 </macro>
 
-<macro name="NewAJUI_TipWithTemplate">
+<macro name="NewAJUI_Tip">
 	<text>
 		C_TEXT($currentTipName)
 		$currentTipName:=OBJECT Get name(Object current)
 		$evt:=Form event code
 
 		Case of 
-			: ($evt=On Load)
-				C_OBJECT($tipTemplate)
-				$tipTemplate:=New object("templateName";<selection/>)
-				
+			: ($evt=On Load)			
 				Form[$currentTipName]:=New AJUI_Tip ($tipTemplate)
 				Form[$currentTipName].TargetName($currentTipName)
-				<caret/>
+				Form[$currentTipName].TipPosition("top")
+				Form[$currentTipName].BackgroundColor("yellow")
+				Form[$currentTipName].TipboxMaxWidth(150)
+				Form[$currentTipName].TextLabel("MyMessage<caret/>")
 			: ($evt=On Mouse Enter)
 				Form[$currentTipName].Show()
 			: ($evt=On Mouse Leave)	
 				Form[$currentTipName].Hide()
 		End Case
+	</text>
+</macro>
+
+<macro name="AJUI_TipQuickTipMethod">
+	<text>
+		C_OBJECT($0;$tip_obj)
+		C_TEXT($1;$tipTargetName)
+		C_TEXT($2;$tipLabel)
+		
+		
+		$tipTargetName:=$1
+		$tipLabel:=$2
+		
+		$tip_obj:=New AJUI_Tip 
+		
+		  // ----------------------
+		  // Global
+		  // ----------------------
+		$tip_obj.TipName("AJUI_Tip_sf")
+		$tip_obj.TipDuration(5000)
+		$tip_obj.AutoRebuild(False)
+		
+		
+		  // ----------------------
+		  //Text
+		  // ----------------------
+		$tip_obj.TextLabel($tipLabel)
+		$tip_obj.TextRotation("")
+		$tip_obj.TextFontSize(13)
+		$tip_obj.TextFontName("Arial,Helvetica,MS Sans Serif")
+		$tip_obj.TextFontColor("#FFFFFF")
+		$tip_obj.TextOpacity(100)
+		
+		
+		  // ----------------------
+		  // Target
+		  // ----------------------
+		$tip_obj.TipPosition("bottom")
+		$tip_obj.TargetName($tipTargetName)
+		$tip_obj.TargetOffset(0)
+		$tip_obj.TargetMargin(0)
+		
+		
+		  // ----------------------
+		  // Container
+		  // ----------------------
+		$tip_obj.CornerRadius(5)
+		$tip_obj.TipboxMaxWidth(0)
+		$tip_obj.TipboxMaxHeight(0)
+		$tip_obj.Padding(10)
+		$tip_obj.BorderSize(2)
+		$tip_obj.BorderColor("#005EA8")
+		$tip_obj.BorderOpacity(100)
+		$tip_obj.BackgroundColor("#076BFF")
+		$tip_obj.BackgroundOpacity(90)
+		$tip_obj.ActivateShadow(False)
+		$tip_obj.ShadowOffset(2)
+		
+		
+		  // ----------------------
+		  // Arrow
+		  // ----------------------
+		$tip_obj.ArrowWidth(20)
+		$tip_obj.ArrowHeight(10)
+		$tip_obj.ArrowPosition("middle")
+		$tip_obj.ArrowOffset(10)
+		$tip_obj.Curved(True)
+		
+		$0:=$tip_obj
 	</text>
 </macro>
 
@@ -251,6 +463,36 @@
 	</text>
 </macro>
 
+<macro name="Wrapper_AJ_Tools_UT_describe">
+	<text>
+		    // New UnitTest_Describe($1;$2;$3)
+   			// With this wrapper method, you can now remove the component when you build an application.
+
+		   C_TEXT($1;$2;$3)
+		   C_OBJECT($0)
+		   ARRAY TEXT($_list_components;0)
+		
+		   COMPONENT LIST($_list_components)
+		   $pos:=Find in array($_list_components;"AJ_Tools_UnitTest")
+		
+		   If ($pos>0)
+			 Case of
+			   : (Count parameters=0)
+				EXECUTE METHOD("New AJ_Tools_UT_describe";$0)
+		
+			   : (Count parameters=1)
+				EXECUTE METHOD("New AJ_Tools_UT_describe";$0;$1)
+		
+			   : (Count parameters=2)
+				EXECUTE METHOD("New AJ_Tools_UT_describe";$0;$1;$2)
+		
+			   : (Count parameters=3)
+				EXECUTE METHOD("New AJ_Tools_UT_describe";$0;$1;$2;$3)
+			 End case 
+   End if
+	</text>
+</macro>
+
 <macro name="NewAJ_Math">
 	<text>
 		C_OBJECT($math)
@@ -269,6 +511,7 @@
 		$animation.offset:=300
 		$animation.orientation:="right"
 		$animation.hideAtTheEnd:=False
+		 //choose effect
 		$animation.bounceIn()
 	</text>
 </macro>
@@ -323,6 +566,23 @@
 					Form.mypb.LaunchProgressBar()
 			End case 
 	</text>
+</macro>
+
+<macro name="checkTemplateFileExists">
+	C_TEXT($1;$0;$templateName;$path;$fullPath)
+	C_OBJECT($folder)
+	
+	$templateName:=$1
+	$path:=Get 4D folder(Current resources folder;*)+"<selection/>"+Folder separator
+	
+	If ($templateName#"")
+		$folder:=Folder($path+$templateName+Folder separator;fk platform path)
+		If ($folder.exists)
+			$fullPath:=$folder.platformPath
+		End if 
+	End if	
+	
+	$0:=$path
 </macro>
 
 </macros>

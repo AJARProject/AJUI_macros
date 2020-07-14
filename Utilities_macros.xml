@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE macros SYSTEM "http://www.4d.com/dtd/2007/macros.dtd" >
+<macros>
+<macro name="EventCaseOf">
+	<text>
+		$evt:=Form event code
+
+		Case of 
+			: ($evt=On Load)
+			<caret/>
+			: ($evt=On Clicked)
+
+		End Case
+	</text>
+</macro>
+
+
+<macro name="newProcessOpenWindow">
+	<text>
+		C_BOOLEAN($1)
+
+		If (Count parameters=0)
+			$ref_process:=New process(Current method name;0;Current method name;True)
+			SHOW PROCESS($ref_process)
+			BRING TO FRONT($ref_process)
+		Else 
+			$ref_win:=Open form window("<selection/>";Plain form window;On the left;At the top)
+			DIALOG("<selection/>")
+			CLOSE WINDOW($ref_win)
+		End if 
+	</text>
+</macro>
+
+<macro name="ForEachObjCollection">
+	<text>
+		C_Colletction($myCollection)
+		C_OBJECT($myObj)
+		
+		For each ($myObj;myCollection)
+			<caret/>
+		End for each 	
+	</text>
+</macro>
+
+</macros>
+
